@@ -1,2 +1,2 @@
-export * from "./error-handler";
+export * from "./error_handler";
 export * from "./logger";

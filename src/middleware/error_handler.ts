@@ -1,6 +1,7 @@
+import express from "express";
 import boom from "@hapi/boom";
 import chalk from "chalk";
-import express from "express";
+import { NextFunction, Request, Response } from "express";
 
 /**
  *  Handles errors that occur within the router.
@@ -11,10 +12,10 @@ import express from "express";
  * @returns {Response} The HTTP response.
  */
 export function errorHandler(
-  err: boom.Boom | Error,
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
+  err: boom.Boom,
+  req: Request,
+  res: Response,
+  next: NextFunction
 ): express.Response<any, Record<string, any>> {
   if (boom.isBoom(err)) {
     const { message } = err;

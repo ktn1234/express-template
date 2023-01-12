@@ -5,10 +5,11 @@ import helmet from "helmet";
 import chalk from "chalk";
 
 import config from "./config";
-import { logger, errorHandler } from "./middleware";
 import router from "./router";
 
-(async () => {
+import { logger, errorHandler } from "./middleware";
+
+(() => {
   const app = express();
   app.use(
     cors({
@@ -17,16 +18,19 @@ import router from "./router";
       optionsSuccessStatus: 200,
     })
   );
-  app.use(express.json());
+  app.use(express.json({ limit: "1mb" }));
   app.use(cookieParser());
   app.use(logger());
   app.use(helmet());
 
   app.use(router());
   app.use(errorHandler);
-  app.listen(config.PORT, () => {
+
+  app.listen(config.PORT, config.HOST_NAME, () => {
     console.log(
-      chalk.cyanBright(`⚡️Server running at http://localhost:${config.PORT}/`)
+      chalk.cyanBright(
+        `⚡️Server running at http://${config.HOST_NAME}:${config.PORT}/`
+      )
     );
   });
 })();

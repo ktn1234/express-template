@@ -1,19 +1,17 @@
+import { Request, Response } from "express";
+
 import moment from "moment";
-import express, { Handler } from "express";
 import morgan from "morgan";
 import chalk from "chalk";
 
-export function logger(): Handler {
+export function logger() {
   morgan.token("date-time", function () {
     return moment().utc().toISOString();
   });
 
-  morgan.token(
-    "response-length",
-    function (_: express.Request, res: express.Response) {
-      return res.get("content-length");
-    }
-  );
+  morgan.token("response-length", function (_: Request, res: Response) {
+    return res.get("content-length");
+  });
 
   const logger = morgan(
     chalk.yellow(
